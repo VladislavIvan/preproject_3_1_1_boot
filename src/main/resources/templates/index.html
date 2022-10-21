@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body {
+            max-width: 150px;
+        }
+
+        td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+
+        form, label {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+<div th:if="${users}">
+    <table>
+        <thead>
+        <tr>
+            <td>id</td>
+            <td>name</td>
+            <td>age</td>
+            <td>edit</td>
+            <td>delete</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.age}"></td>
+            <td><a th:href="@{/edit/__${user.id}__/}">Редактировать</a></td>
+            <td><a th:href="@{/delete/__${user.id}__/}">Удалить</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:if="${user_for_edit}">
+    <form th:action="@{/edit}" th:object="${user_for_edit}" th:method="post">
+        <div>
+            <label>Имя:
+                <input type="text" th:field="*{name}">
+            </label>
+            <label>Возраст:
+                <input type="text" th:field="*{age}">
+            </label>
+            <input type="hidden" th:field="*{id}">
+        </div>
+        <div>
+            <button type="submit">Сохранить</button>
+        </div>
+    </form>
+</div>
+<div th:if="${user_model}">
+    <form th:action="@{/add}" th:object="${user_model}" th:method="post">
+        <div>
+            <label>Имя:
+                <input type="text" th:field="*{name}">
+            </label>
+
+            <label>Возраст:
+                <input type="text" th:field="*{age}">
+            </label>
+            <input type="hidden" th:field="*{id}">
+
+            <button type="submit">Добавить</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
